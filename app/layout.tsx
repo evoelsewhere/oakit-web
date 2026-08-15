@@ -5,6 +5,7 @@ import { StructuredData } from "./components/StructuredData";
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
+  SITE_TITLE,
   SITE_URL,
 } from "./lib/site-metadata";
 import "./globals.css";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
   title: {
-    default: "OAKit — Office Agent Kit",
+    default: SITE_TITLE,
     template: "%s · OAKit",
   },
   description: SITE_DESCRIPTION,
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: SITE_NAME,
     locale: "en_US",
-    title: "OAKit — Office Agent Kit",
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: [
       {
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "OAKit — Office Agent Kit",
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: ["/og.png"],
   },

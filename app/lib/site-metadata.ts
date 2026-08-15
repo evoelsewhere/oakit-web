@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 export const SITE_NAME = "OAKit";
 export const SITE_URL = "https://oakit.evoelsewhere.asia";
+export const SITE_TITLE =
+  "OAKit — PowerPoint to JSON Toolkit for AI Agent Workflows";
 export const SITE_DESCRIPTION =
   "Parse PowerPoint files into deterministic, bounded, and traceable JSON for AI agents with OAKit—locally in Node.js, browsers, scripts, and the CLI.";
 

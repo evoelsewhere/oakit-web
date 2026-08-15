@@ -77,7 +77,10 @@ function wordsIn(html) {
 test("renders the OAKit landing page without starter artifacts", async () => {
   const html = await htmlFor("/");
 
-  assert.match(html, /<title>OAKit — Office Agent Kit<\/title>/i);
+  assert.match(
+    html,
+    /<title>OAKit — PowerPoint to JSON Toolkit for AI Agent Workflows<\/title>/i,
+  );
   assert.match(html, /Office documents become/);
   assert.match(html, /agent-ready knowledge/);
   assert.match(html, /npx oakit deck\.pptx --pretty/);
@@ -94,13 +97,18 @@ test("keeps landing-page content aligned with its H1 and image semantics", async
   const html = await htmlFor("/");
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? "";
   const h1 = main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "";
+  const title = html.match(/<title>([^<]+)<\/title>/i)?.[1] ?? "";
   const contentWithoutH1 = main.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, " ");
   const bodyWords = new Set(wordsIn(contentWithoutH1));
   const images = [...main.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
 
   assert.ok(wordsIn(main).length >= 250, "landing page should contain at least 250 words");
+  assert.ok(title.length >= 50 && title.length <= 60, "title should contain 50–60 characters");
   for (const headingWord of new Set(wordsIn(h1))) {
     assert.ok(bodyWords.has(headingWord), `H1 word should occur in content: ${headingWord}`);
+  }
+  for (const titleWord of new Set(wordsIn(title))) {
+    assert.ok(bodyWords.has(titleWord), `title word should occur in content: ${titleWord}`);
   }
   assert.ok(images.length >= 2);
   for (const image of images) {
