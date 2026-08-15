@@ -1,6 +1,6 @@
 # OAKit
 
-> OAKit turns Office documents into deterministic, bounded, and traceable structures for AI-agent workflows.
+> OAKit turns Office documents into deterministic, bounded, and traceable knowledge for AI-agent workflows, starting with PowerPoint support.
 
 - [Documentation](https://oakit.evoelsewhere.asia/docs): Product overview and current format support.
 - [Quickstart](https://oakit.evoelsewhere.asia/docs/quickstart): Installation, package API, CLI, and safe defaults.

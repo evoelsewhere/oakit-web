@@ -1,6 +1,6 @@
 # OAKit — Office Agent Kit
 
-OAKit is the document-processing boundary for AI agents. It converts complex Office packages into deterministic public models while keeping raw ZIP entries, OOXML relationships, parser state, and security limits inside the library.
+OAKit is an Office document toolkit and processing boundary for AI agents. It turns complex Office packages into deterministic public models while keeping raw ZIP entries, OOXML relationships, parser state, and security limits inside the project boundary. PowerPoint support comes first; Excel and Word remain planned.
 
 ## Current scope
 

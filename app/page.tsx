@@ -38,9 +38,10 @@ export default function Home() {
             Office documents become <em>agent-ready knowledge.</em>
           </h1>
           <p className="hero-lead">
-            OAKit is a PowerPoint-to-JSON toolkit that turns complex Office
-            files into deterministic, bounded, and traceable structures AI
-            agents can safely inspect and use in automated workflows.
+            OAKit is an Office document toolkit, starting with PowerPoint, that
+            turns complex files into deterministic, bounded, and traceable
+            structures AI agents can safely inspect and use in automated
+            workflows.
           </p>
           <div className="hero-actions">
             <Link className="button primary" href="/docs">

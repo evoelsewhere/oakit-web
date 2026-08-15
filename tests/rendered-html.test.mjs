@@ -79,7 +79,7 @@ test("renders the OAKit landing page without starter artifacts", async () => {
 
   assert.match(
     html,
-    /<title>OAKit — PowerPoint to JSON Toolkit for AI Agent Workflows<\/title>/i,
+    /<title>OAKit — Office Document Toolkit for AI Agent Workflows<\/title>/i,
   );
   assert.match(html, /Office documents become/);
   assert.match(html, /agent-ready knowledge/);
@@ -90,6 +90,11 @@ test("renders the OAKit landing page without starter artifacts", async () => {
   assert.match(html, /property="og:image"/);
   assert.match(html, /\/og\.png/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  const description = metadataContent(html, "name", "description");
+  assert.equal(description.length, 151);
+  assert.match(description, /^OAKit turns Office documents/);
+  assert.match(html, new RegExp(`property="og:description" content="${description}"`));
+  assert.match(html, new RegExp(`name="twitter:description" content="${description}"`));
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
@@ -305,6 +310,7 @@ test("publishes crawler metadata for the canonical domain", async () => {
   assert.equal((sitemap.match(/<lastmod>2026-08-15T00:00:00\.000Z<\/lastmod>/g) ?? []).length, indexableRoutes.length);
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /xml/i);
   assert.equal(manifest.name, "OAKit — Office Agent Kit");
+  assert.match(manifest.description, /^OAKit turns Office documents/);
   assert.equal(manifest.start_url, "/");
   assert.match(
     manifestResponse.headers.get("content-type") ?? "",
