@@ -60,6 +60,20 @@ function structuredDataFrom(html) {
   )].map((match) => JSON.parse(match[1]));
 }
 
+function plainText(html) {
+  return html
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&(?:amp|quot|apos|#x27|#39);/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function wordsIn(html) {
+  return plainText(html).toLowerCase().match(/[a-z0-9]+/g) ?? [];
+}
+
 test("renders the OAKit landing page without starter artifacts", async () => {
   const html = await htmlFor("/");
 
@@ -74,6 +88,25 @@ test("renders the OAKit landing page without starter artifacts", async () => {
   assert.match(html, /\/og\.png/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+});
+
+test("keeps landing-page content aligned with its H1 and image semantics", async () => {
+  const html = await htmlFor("/");
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? "";
+  const h1 = main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "";
+  const contentWithoutH1 = main.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, " ");
+  const bodyWords = new Set(wordsIn(contentWithoutH1));
+  const images = [...main.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+
+  assert.ok(wordsIn(main).length >= 250, "landing page should contain at least 250 words");
+  for (const headingWord of new Set(wordsIn(h1))) {
+    assert.ok(bodyWords.has(headingWord), `H1 word should occur in content: ${headingWord}`);
+  }
+  assert.ok(images.length >= 2);
+  for (const image of images) {
+    assert.match(image, /\balt="[^"]+"/i, "every content image should have useful alt text");
+  }
+  assert.doesNotMatch(html, /<(?:b|strong)>\$<\/(?:b|strong)>/i);
 });
 
 test("publishes complete, unique SEO metadata on every indexable route", async () => {
@@ -277,4 +310,39 @@ test("returns a noindex 404 for unknown URLs", async () => {
 
   assert.equal(response.status, 404);
   assert.match(html, /name="robots" content="noindex"/i);
+});
+
+test("redirects the production host to HTTPS and serves HSTS", async () => {
+  const env = {
+    ASSETS: {
+      fetch: async () => new Response("Not found", { status: 404 }),
+    },
+  };
+  const context = {
+    waitUntil() {},
+    passThroughOnException() {},
+  };
+  const redirect = await worker.fetch(
+    new Request("http://oakit.evoelsewhere.asia/docs?source=seo"),
+    env,
+    context,
+  );
+  const secure = await worker.fetch(
+    new Request("https://oakit.evoelsewhere.asia/", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    context,
+  );
+
+  assert.equal(redirect.status, 308);
+  assert.equal(
+    redirect.headers.get("location"),
+    "https://oakit.evoelsewhere.asia/docs?source=seo",
+  );
+  assert.equal(secure.status, 200);
+  assert.equal(
+    secure.headers.get("strict-transport-security"),
+    "max-age=31536000; includeSubDomains",
+  );
 });

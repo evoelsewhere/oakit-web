@@ -132,15 +132,15 @@ export default function Home() {
         <div className="cli-command-stack" aria-label="OAKit CLI examples">
           <div>
             <span>file → stdout</span>
-            <code><b>$</b> oakit deck.pptx --pretty</code>
+            <code><span className="prompt">$</span> oakit deck.pptx --pretty</code>
           </div>
           <div>
             <span>file → JSON file</span>
-            <code><b>$</b> oakit convert deck.pptx -o deck.json</code>
+            <code><span className="prompt">$</span> oakit convert deck.pptx -o deck.json</code>
           </div>
           <div>
             <span>stdin → document model</span>
-            <code><b>$</b> cat deck.pptx | oakit - --format pptx</code>
+            <code><span className="prompt">$</span> cat deck.pptx | oakit - --format pptx</code>
           </div>
           <footer>
             <span>exit 0 · success</span>
@@ -155,8 +155,18 @@ export default function Home() {
           <p className="kicker">From files to knowledge</p>
           <h2>A document layer designed for agent workflows.</h2>
           <p>
-            Keep format complexity in one tested boundary, then build search,
-            retrieval, and actions on a stable model.
+            Office documents become agent-ready knowledge when OAKit preserves
+            text, slide order, visual structure, tables, charts, media
+            references, speaker notes, and diagnostics as one deterministic
+            document model.
+          </p>
+          <p>
+            That model gives developers a safer starting point for retrieval,
+            summarization, citation, and tool calls. Agents can trace an answer
+            back to its slide and source element, while applications can
+            enforce limits before untrusted document content reaches a prompt.
+            The same boundary works in Node.js, browser workflows, command-line
+            scripts, and automated pipelines.
           </p>
         </div>
         <div className="pipeline">

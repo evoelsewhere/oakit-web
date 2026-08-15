@@ -5,7 +5,13 @@ export function SiteHeader() {
   return (
     <nav className="nav shell" aria-label="Primary navigation">
       <Link className="brand" href="/" aria-label="OAKit home">
-        <Image src="/oakit-logo.png" alt="" width={42} height={42} priority />
+        <Image
+          src="/oakit-logo.png"
+          alt="OAKit Office Agent Kit logo"
+          width={42}
+          height={42}
+          priority
+        />
         <span>OAKit</span>
       </Link>
       <div className="nav-links">

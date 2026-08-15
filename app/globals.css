@@ -358,7 +358,8 @@ h1 em {
   overflow-wrap: anywhere;
 }
 
-.cli-command-stack code b {
+.cli-command-stack code .prompt {
+  display: inline;
   margin-right: 9px;
   color: var(--mint);
 }
@@ -395,11 +396,15 @@ h1 em {
   letter-spacing: -0.055em;
 }
 
-.section-intro > p:last-child {
+.section-intro > p:not(.kicker) {
   max-width: 590px;
   color: var(--muted);
   line-height: 1.7;
   font-size: 17px;
+}
+
+.section-intro > p:not(.kicker) + p {
+  margin-top: 18px;
 }
 
 .pipeline {
