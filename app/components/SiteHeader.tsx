@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { GitHubLink } from "./GitHubLink";
 import { SiteSearch } from "./SiteSearch";
+import { ThemeSwitch } from "./ThemeSwitch";
 
 export function SiteHeader() {
   return (
@@ -31,6 +32,7 @@ export function SiteHeader() {
         </div>
         <div className="nav-actions">
           <SiteSearch />
+          <ThemeSwitch />
           <GitHubLink />
         </div>
       </nav>

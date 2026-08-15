@@ -111,6 +111,9 @@ test("provides a working site search from the shared header", async () => {
   assert.match(searchForm, /role="search"/i);
   assert.match(searchInput, /name="q"/i);
   assert.match(searchInput, /type="search"/i);
+  assert.match(home, /aria-label="Toggle color theme"/i);
+  assert.match(home, /localStorage\.getItem\("oakit-theme"\)/);
+  assert.match(home, /prefers-color-scheme: dark/);
 
   const results = await htmlFor("/search?q=browser");
   assert.match(results, /<title>Search · OAKit<\/title>/i);

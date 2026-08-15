@@ -26,6 +26,22 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+const themeScript = `
+(() => {
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  let theme = media.matches ? "dark" : "light";
+
+  try {
+    const storedTheme = localStorage.getItem("oakit-theme");
+    if (storedTheme === "light" || storedTheme === "dark") {
+      theme = storedTheme;
+    }
+  } catch {}
+
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
+})();`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
@@ -152,7 +168,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${dmSans.variable} ${fragmentMono.variable} ${montserrat.variable} antialiased`}
       >
