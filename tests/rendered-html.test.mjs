@@ -90,6 +90,11 @@ test("renders the OAKit landing page without starter artifacts", async () => {
   assert.match(html, /property="og:image"/);
   assert.match(html, /\/og\.png/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.equal(metadataContent(html, "name", "color-scheme"), "light dark");
+  assert.match(
+    html,
+    /name="theme-color" content="#07110c" media="\(prefers-color-scheme: dark\)"/i,
+  );
   const description = metadataContent(html, "name", "description");
   assert.equal(description.length, 151);
   assert.match(description, /^OAKit turns Office documents/);
@@ -362,6 +367,8 @@ test("publishes crawler metadata for the canonical domain", async () => {
   assert.equal(manifest.name, "OAKit — Office Agent Kit");
   assert.match(manifest.description, /^OAKit turns Office documents/);
   assert.equal(manifest.start_url, "/");
+  assert.equal(manifest.background_color, "#07110c");
+  assert.equal(manifest.theme_color, "#0b6747");
   assert.match(
     manifestResponse.headers.get("content-type") ?? "",
     /application\/manifest\+json|application\/json/i,

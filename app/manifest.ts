@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: SITE_DESCRIPTION,
     start_url: "/",
     display: "standalone",
-    background_color: "#f5faf7",
-    theme_color: "#087a4c",
+    background_color: "#07110c",
+    theme_color: "#0b6747",
     icons: [
       {
         src: "/oakit-logo.png",
