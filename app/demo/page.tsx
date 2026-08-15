@@ -1,9 +1,9 @@
 import { DocPage } from "../components/DocPage";
 import { createPageMetadata } from "../lib/site-metadata";
-import { DemoDropzone } from "./DemoDropzone";
+import { DemoWorkspace } from "./DemoWorkspace";
 
 const description =
-  "Try OAKit's local-first PowerPoint browser demo and validate PPTX package boundaries without uploading document content to a server.";
+  "Explore OAKit's local-first workspace prepared for PPTX, XLSX, and DOCX conversion, JSON inspection, format previews, and downloads before npm integration.";
 
 export const metadata = createPageMetadata({
   title: "Browser demo",
@@ -14,19 +14,25 @@ export const metadata = createPageMetadata({
 export default function Demo() {
   return (
     <DocPage
-      eyebrow="Local-first playground"
+      eyebrow="Local-first document studio"
       path="/demo"
       schemaType="WebPage"
-      title="Your document never leaves the browser."
+      title="Office and JSON, side by side."
+      wide
       description={description}
     >
-      <DemoDropzone />
+      <DemoWorkspace />
       <section className="doc-section">
-        <h2>What the complete explorer will show</h2>
+        <h2>Ready for the package integration</h2>
+        <p>
+          The workspace keeps file handling, normalized JSON, visual preview,
+          diagnostics, and export as separate adapters. Publishing the npm
+          package will connect behavior without redesigning the interface.
+        </p>
         <div className="doc-card-grid">
-          <article className="doc-card"><h3>Document tree</h3><p>Slides, groups, shapes, text, tables, charts, media, and notes.</p></article>
-          <article className="doc-card"><h3>Normalized JSON</h3><p>The exact deterministic public model returned to an agent tool.</p></article>
-          <article className="doc-card"><h3>Diagnostics</h3><p>Recoverable fidelity issues and fatal security boundaries.</p></article>
+          <article className="doc-card"><h3>Parser and writer adapters</h3><p>One isolated adapter per verified package export and Office format.</p></article>
+          <article className="doc-card"><h3>Format preview adapters</h3><p>Slides, worksheets, and document pages render from the normalized model.</p></article>
+          <article className="doc-card"><h3>Local export boundary</h3><p>Generated JSON and Office files download without leaving the browser.</p></article>
         </div>
       </section>
     </DocPage>

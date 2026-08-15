@@ -12,6 +12,7 @@
 - [Browser integration](https://oakit.evoelsewhere.asia/docs/browser): Local parsing, media modes, cleanup, and workers.
 - [Agent tools](https://oakit.evoelsewhere.asia/docs/agent-tools): Bounded, traceable, untrusted-data tool patterns.
 - [Agent guides](https://oakit.evoelsewhere.asia/guides): Patterns for ingestion, provenance, retrieval, and prompt-injection boundaries.
+- [Browser demo](https://oakit.evoelsewhere.asia/demo): Local Office ↔ JSON workspace UI; package conversion, preview, and downloads remain integration-pending.
 - [Architecture](https://oakit.evoelsewhere.asia/architecture): Package layers and processing boundaries.
 - [Changelog](https://oakit.evoelsewhere.asia/changelog): Release notes and release gates.
 - [Source](https://github.com/evoelsewhere/oakit): OAKit source repository.

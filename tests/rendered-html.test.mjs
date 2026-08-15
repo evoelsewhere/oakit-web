@@ -260,8 +260,20 @@ test("renders the local-first demo and release status", async () => {
     htmlFor("/changelog"),
   ]);
 
-  assert.match(demo, /Your document never leaves the browser/);
-  assert.match(demo, /Choose \.pptx file/);
+  assert.match(demo, /Office and JSON, side by side/);
+  assert.match(demo, /Office <span>→<\/span> JSON/);
+  assert.match(demo, /JSON <span>→<\/span> Office/);
+  assert.match(demo, />PPTX</);
+  assert.match(demo, />XLSX</);
+  assert.match(demo, />DOCX</);
+  assert.match(demo, /Download JSON/);
+  assert.match(demo, /Download[\s\S]{0,30}PPTX/);
+  assert.match(demo, /Download[\s\S]{0,30}XLSX/);
+  assert.match(demo, /Download[\s\S]{0,30}DOCX/);
+  assert.match(demo, /docs-layout-wide/);
+  assert.match(demo, /Disabled until the verified npm exports are integrated/);
+  assert.match(demo, /Adapter pending/);
+  assert.doesNotMatch(demo, /Conversion complete|Download ready/);
   assert.match(changelog, /First public release/);
   assert.match(changelog, /Unreleased/);
 });

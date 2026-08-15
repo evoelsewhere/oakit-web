@@ -11,7 +11,7 @@ Production URL: [oakit.evoelsewhere.asia](https://oakit.evoelsewhere.asia)
 - Dedicated parser, document-model, diagnostics, CLI, browser, and agent-tool guides
 - Agent integration guides
 - Architecture overview
-- Local-only PPTX demo boundary
+- Local-only Office ↔ JSON workspace shell with format previews and export adapters prepared for npm integration
 - Changelog and release gates
 - Search metadata with canonical URLs, XML sitemap, robots rules, and social cards
 - Schema.org data for the project, documentation, and breadcrumbs

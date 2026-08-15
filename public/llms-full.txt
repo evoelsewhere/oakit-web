@@ -16,6 +16,10 @@ OAKit is an Office document toolkit and processing boundary for AI agents. It tu
 - Traceable: structured diagnostics retain source-part and failure context.
 - Local-first: browser inspection does not upload the selected document.
 
+## Browser demo status
+
+The demo UI is prepared for Office-to-JSON and JSON-to-Office workflows across PPTX, XLSX, and DOCX. Local file selection, input boundaries, JSON syntax validation, direction switching, format switching, preview surfaces, diagnostics, and disabled export controls are present. Document parsing, generation, visual rendering, and downloads remain disabled until the published npm package exposes and verifies the required browser exports. The demo never sends selected files or pasted JSON to a server.
+
 ## Public PowerPoint API
 
 Runtime exports from both `oakit` and `oakit/pptx`:
@@ -69,6 +73,7 @@ Recommended flow: OAKit → structural chunks → embeddings → retrieval → a
 - Browser integration: https://oakit.evoelsewhere.asia/docs/browser
 - Agent-tool integration: https://oakit.evoelsewhere.asia/docs/agent-tools
 - Guides: https://oakit.evoelsewhere.asia/guides
+- Browser demo: https://oakit.evoelsewhere.asia/demo
 - Architecture: https://oakit.evoelsewhere.asia/architecture
 - Changelog: https://oakit.evoelsewhere.asia/changelog
 - Source: https://github.com/evoelsewhere/oakit

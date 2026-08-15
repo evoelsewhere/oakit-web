@@ -49,6 +49,7 @@ interface DocPageProps {
   path: string;
   schemaType?: "CollectionPage" | "TechArticle" | "WebPage";
   title: string;
+  wide?: boolean;
 }
 
 const breadcrumbLabels: Record<string, string> = {
@@ -89,6 +90,7 @@ export function DocPage({
   path,
   schemaType = "TechArticle",
   title,
+  wide = false,
 }: DocPageProps) {
   const breadcrumbs = createBreadcrumbs(path);
   const canonical = `${SITE_URL}${path}`;
@@ -125,7 +127,7 @@ export function DocPage({
     <main>
       <StructuredData data={pageStructuredData} />
       <SiteHeader />
-      <div className="docs-layout shell">
+      <div className={`docs-layout shell${wide ? " docs-layout-wide" : ""}`}>
         <aside className="docs-sidebar" aria-label="Documentation sections">
           <nav>
             {sectionGroups.map(([group, sections]) => (
