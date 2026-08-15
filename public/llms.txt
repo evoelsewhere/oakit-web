@@ -1,0 +1,19 @@
+# OAKit
+
+> OAKit turns Office documents into deterministic, bounded, and traceable structures for AI-agent workflows.
+
+- [Documentation](https://oakit.evoelsewhere.asia/docs): Product overview and current format support.
+- [Quickstart](https://oakit.evoelsewhere.asia/docs/quickstart): Installation, package API, CLI, and safe defaults.
+- [API reference](https://oakit.evoelsewhere.asia/docs/api): Public exports and import paths.
+- [Parsing PPTX](https://oakit.evoelsewhere.asia/docs/api/parse-pptx): Parser signatures, inputs, options, defaults, and guarantees.
+- [Document model](https://oakit.evoelsewhere.asia/docs/api/document-model): Field-level PPTX output reference.
+- [Diagnostics and limits](https://oakit.evoelsewhere.asia/docs/api/diagnostics): Error modes, diagnostic codes, and resource boundaries.
+- [Command line](https://oakit.evoelsewhere.asia/docs/cli): Commands, output envelopes, errors, and exit codes.
+- [Browser integration](https://oakit.evoelsewhere.asia/docs/browser): Local parsing, media modes, cleanup, and workers.
+- [Agent tools](https://oakit.evoelsewhere.asia/docs/agent-tools): Bounded, traceable, untrusted-data tool patterns.
+- [Agent guides](https://oakit.evoelsewhere.asia/guides): Patterns for ingestion, provenance, retrieval, and prompt-injection boundaries.
+- [Architecture](https://oakit.evoelsewhere.asia/architecture): Package layers and processing boundaries.
+- [Changelog](https://oakit.evoelsewhere.asia/changelog): Release notes and release gates.
+- [Source](https://github.com/evoelsewhere/oakit): OAKit source repository.
+
+Current status: pre-stable. PPTX reading is in development; XLSX and DOCX remain planned. Verify claims against the published package version before relying on them in production.

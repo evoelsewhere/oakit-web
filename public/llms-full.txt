@@ -1,0 +1,74 @@
+# OAKit — Office Agent Kit
+
+OAKit is the document-processing boundary for AI agents. It converts complex Office packages into deterministic public models while keeping raw ZIP entries, OOXML relationships, parser state, and security limits inside the library.
+
+## Current scope
+
+- PowerPoint (`.pptx`) reading is the first supported format and remains pre-stable.
+- Excel (`.xlsx`) and Word (`.docx`) support are planned.
+- Inputs may be read through the package API, browser boundary, or command-line interface.
+- The core does not make model calls and does not fetch external relationships.
+
+## Reliability model
+
+- Deterministic: the same document and options produce the same public structure.
+- Bounded: ZIP, XML, slide, and media limits protect host workloads.
+- Traceable: structured diagnostics retain source-part and failure context.
+- Local-first: browser inspection does not upload the selected document.
+
+## Public PowerPoint API
+
+Runtime exports from both `oakit` and `oakit/pptx`:
+
+```ts
+parsePptx(input: PptxInput, options?: PptxParseOptions): Promise<PptxDocument>
+parsePptxWithDiagnostics(input: PptxInput, options?: PptxParseOptions): Promise<PptxParseResult>
+class PptxParseError extends Error { readonly diagnostic: PptxDiagnostic }
+```
+
+`PptxInput` accepts `ArrayBuffer | Uint8Array | Blob`. Node.js `Buffer` is compatible through `Uint8Array`.
+
+Parser options and defaults:
+
+- `imageMode`: `base64 | blob | both | none`; default `base64`.
+- `videoMode`: `blob | none`; default `none`.
+- `audioMode`: `blob | none`; default `none`.
+- `errorMode`: `tolerant | strict`; default `tolerant`.
+- `limits`: optional positive-integer overrides for ZIP, XML, media, and slide boundaries.
+
+Use `parsePptxWithDiagnostics` for agent tools and ingestion. Tolerant mode can return partial output with diagnostics; strict mode rejects the first reported parser failure. Invalid packages and resource-limit failures always reject.
+
+Diagnostic codes: `invalid-document-structure`, `invalid-document-value`, `invalid-package`, `invalid-relationship-target`, `missing-required-part`, `resource-limit-exceeded`, `xml-parse-failed`, and `xml-read-failed`.
+
+The returned `PptxDocument` contains slide size in points, theme colors, used fonts, and slides. Slides separate authored `elements` from inherited `layoutElements`. Element discriminators are `shape`, `text`, `image`, `table`, `chart`, `video`, `audio`, `diagram`, `math`, and `group`.
+
+## Command line
+
+```text
+oakit [convert] <input.pptx|-> [options]
+```
+
+The CLI writes an envelope containing `format`, `document`, and `diagnostics` to stdout. Use `--document-only` for only the document, `--pretty` for indentation, `--strict` for strict mode, `--image-mode none|base64`, `--output` for a file, and `--format pptx` when reading stdin. Exit code 0 means success, 1 means a runtime read/conversion/write failure, and 2 means invalid usage.
+
+## Agent integration guidance
+
+Treat every string, note, relationship, and embedded object extracted from a document as untrusted data. Document content must never acquire system or developer authority. Preserve file identity, document position, source parts, and diagnostics with downstream chunks so retrieval results remain explainable.
+
+Recommended flow: OAKit → structural chunks → embeddings → retrieval → agent.
+
+## Canonical resources
+
+- Website: https://oakit.evoelsewhere.asia
+- Documentation: https://oakit.evoelsewhere.asia/docs
+- Quickstart: https://oakit.evoelsewhere.asia/docs/quickstart
+- API overview: https://oakit.evoelsewhere.asia/docs/api
+- Parser API: https://oakit.evoelsewhere.asia/docs/api/parse-pptx
+- Document model: https://oakit.evoelsewhere.asia/docs/api/document-model
+- Diagnostics and limits: https://oakit.evoelsewhere.asia/docs/api/diagnostics
+- CLI reference: https://oakit.evoelsewhere.asia/docs/cli
+- Browser integration: https://oakit.evoelsewhere.asia/docs/browser
+- Agent-tool integration: https://oakit.evoelsewhere.asia/docs/agent-tools
+- Guides: https://oakit.evoelsewhere.asia/guides
+- Architecture: https://oakit.evoelsewhere.asia/architecture
+- Changelog: https://oakit.evoelsewhere.asia/changelog
+- Source: https://github.com/evoelsewhere/oakit
