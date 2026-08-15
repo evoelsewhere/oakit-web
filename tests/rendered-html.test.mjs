@@ -98,6 +98,44 @@ test("renders the OAKit landing page without starter artifacts", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
+test("provides a working site search from the shared header", async () => {
+  const home = await htmlFor("/");
+  const searchForm = home.match(/<form[^>]+class="site-search"[^>]*>/i)?.[0] ?? "";
+  const searchInput = home.match(/<input[^>]+id="site-search-query"[^>]*>/i)?.[0] ?? "";
+  assert.match(searchForm, /action="\/search"/i);
+  assert.match(searchForm, /role="search"/i);
+  assert.match(searchInput, /name="q"/i);
+  assert.match(searchInput, /type="search"/i);
+
+  const results = await htmlFor("/search?q=browser");
+  assert.match(results, /<title>Search · OAKit<\/title>/i);
+  assert.match(results, /name="robots" content="noindex, follow"/i);
+  assert.match(results, /Browser integration/);
+  assert.match(results, /Browser demo/);
+  assert.match(results, /result(?:s)?/);
+
+  const empty = await htmlFor("/search?q=not-a-real-oakit-topic");
+  assert.match(empty, /No matching pages/);
+});
+
+test("shows a live GitHub star badge with a resilient API fallback", async () => {
+  const home = await htmlFor("/");
+  const githubLink = home.match(/<a[^>]+class="github-link"[\s\S]*?<\/a>/i)?.[0] ?? "";
+  assert.match(githubLink, /href="https:\/\/github\.com\/evoelsewhere\/oakit"/i);
+  assert.match(githubLink, /class="github-mark"/i);
+  assert.match(githubLink, /class="github-stars"/i);
+  assert.match(githubLink, />1<\/span>/i);
+
+  const response = await render("/api/github-stars");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^application\/json\b/i);
+  assert.match(response.headers.get("cache-control") ?? "", /max-age=3600/i);
+  const data = await response.json();
+  assert.ok(Number.isInteger(data.stars));
+  assert.ok(data.stars >= 0);
+  assert.equal(typeof data.stale, "boolean");
+});
+
 test("keeps landing-page content aligned with its H1 and image semantics", async () => {
   const html = await htmlFor("/");
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? "";

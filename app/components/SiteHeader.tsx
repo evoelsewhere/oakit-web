@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { GitHubLink } from "./GitHubLink";
+import { SiteSearch } from "./SiteSearch";
+
 export function SiteHeader() {
   return (
     <nav className="nav shell" aria-label="Primary navigation">
@@ -22,12 +25,8 @@ export function SiteHeader() {
         <Link href="/architecture">Architecture</Link>
         <Link href="/changelog">Changelog</Link>
       </div>
-      <a
-        className="github-link"
-        href="https://github.com/evoelsewhere/oakit"
-      >
-        GitHub <span aria-hidden="true">↗</span>
-      </a>
+      <SiteSearch />
+      <GitHubLink />
     </nav>
   );
 }
