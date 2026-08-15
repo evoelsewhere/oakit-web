@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
-const origin = "https://oakit.evoelsewhere.asia";
+import { SITE_URL } from "./lib/site-metadata";
+
+const lastModified = new Date("2026-08-15T00:00:00.000Z");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -19,7 +21,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/architecture", 0.7],
     ["/changelog", 0.6],
   ].map(([path, priority]) => ({
-    url: `${origin}${path}`,
+    url: `${SITE_URL}${path}`,
+    lastModified,
     changeFrequency: path === "/changelog" ? "weekly" : "monthly",
     priority: Number(priority),
   }));

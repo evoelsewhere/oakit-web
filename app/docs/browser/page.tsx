@@ -15,6 +15,7 @@ export default function BrowserGuide() {
   return (
     <DocPage
       eyebrow="Runtime guide"
+      path="/docs/browser"
       title="Parse locally in the browser."
       description={description}
     >

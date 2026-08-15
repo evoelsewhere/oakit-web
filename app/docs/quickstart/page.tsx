@@ -3,9 +3,12 @@ import Link from "next/link";
 import { DocPage } from "../../components/DocPage";
 import { createPageMetadata } from "../../lib/site-metadata";
 
+const description =
+  "Install OAKit and parse a PowerPoint file into structured JSON from Node.js, a browser, or the command line with bounded, safe defaults.";
+
 export const metadata = createPageMetadata({
-  title: "Quickstart",
-  description: "Install OAKit and parse a PowerPoint document.",
+  title: "Quickstart: parse PowerPoint files",
+  description,
   path: "/docs/quickstart",
 });
 
@@ -13,8 +16,9 @@ export default function Quickstart() {
   return (
     <DocPage
       eyebrow="Getting started"
+      path="/docs/quickstart"
       title="Parse your first document."
-      description="Use the package API in Node.js and browsers, or the deterministic command-line interface in scripts and agent sandboxes."
+      description={description}
     >
       <section className="doc-section">
         <h2>Install</h2>

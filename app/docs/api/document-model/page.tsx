@@ -127,6 +127,7 @@ export default function DocumentModelReference() {
   return (
     <DocPage
       eyebrow="API · Types"
+      path="/docs/api/document-model"
       title="Understand every returned field."
       description={description}
     >

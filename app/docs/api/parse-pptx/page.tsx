@@ -48,6 +48,7 @@ export default function ParsePptxReference() {
   return (
     <DocPage
       eyebrow="API · PowerPoint"
+      path="/docs/api/parse-pptx"
       title="Parse PowerPoint packages."
       description={description}
     >

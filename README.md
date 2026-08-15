@@ -13,7 +13,9 @@ Production URL: [oakit.evoelsewhere.asia](https://oakit.evoelsewhere.asia)
 - Architecture overview
 - Local-only PPTX demo boundary
 - Changelog and release gates
-- `llms.txt`, sitemap, robots rules, and social metadata
+- Search metadata with canonical URLs, XML sitemap, robots rules, and social cards
+- Schema.org data for the project, documentation, and breadcrumbs
+- Web manifest plus `llms.txt` and `llms-full.txt` for machine-readable discovery
 - CI on Node.js 22 and 24
 - GitHub Actions deployment to Cloudflare Workers
 

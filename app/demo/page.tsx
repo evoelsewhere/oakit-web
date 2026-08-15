@@ -2,9 +2,12 @@ import { DocPage } from "../components/DocPage";
 import { createPageMetadata } from "../lib/site-metadata";
 import { DemoDropzone } from "./DemoDropzone";
 
+const description =
+  "Try OAKit's local-first PowerPoint browser demo and validate PPTX package boundaries without uploading document content to a server.";
+
 export const metadata = createPageMetadata({
   title: "Browser demo",
-  description: "Inspect a PowerPoint package locally with OAKit.",
+  description,
   path: "/demo",
 });
 
@@ -12,8 +15,10 @@ export default function Demo() {
   return (
     <DocPage
       eyebrow="Local-first playground"
+      path="/demo"
+      schemaType="WebPage"
       title="Your document never leaves the browser."
-      description="Test OAKit's local file boundary. The complete structured document explorer will arrive with the first published browser package."
+      description={description}
     >
       <DemoDropzone />
       <section className="doc-section">

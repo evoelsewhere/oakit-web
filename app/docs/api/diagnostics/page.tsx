@@ -39,6 +39,7 @@ export default function DiagnosticsReference() {
   return (
     <DocPage
       eyebrow="API · Reliability"
+      path="/docs/api/diagnostics"
       title="Recover fidelity failures, stop security failures."
       description={description}
     >

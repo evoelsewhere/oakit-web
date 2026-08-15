@@ -1,9 +1,12 @@
 import { DocPage } from "../components/DocPage";
 import { createPageMetadata } from "../lib/site-metadata";
 
+const description =
+  "Follow OAKit release notes, PowerPoint parser capabilities, compatibility changes, security updates, and public package milestones.";
+
 export const metadata = createPageMetadata({
   title: "Changelog",
-  description: "OAKit release notes and capability changes.",
+  description,
   path: "/changelog",
 });
 
@@ -11,8 +14,10 @@ export default function Changelog() {
   return (
     <DocPage
       eyebrow="Release notes"
+      path="/changelog"
+      schemaType="CollectionPage"
       title="Changelog"
-      description="Public behavior, compatibility, security, and package changes are recorded here as OAKit approaches its first release."
+      description={description}
     >
       <section className="release">
         <div className="release-meta">

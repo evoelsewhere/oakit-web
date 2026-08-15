@@ -1,11 +1,20 @@
 import type { MetadataRoute } from "next";
 
+import { SITE_URL } from "./lib/site-metadata";
+
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
-    sitemap: "https://oakit.evoelsewhere.asia/sitemap.xml",
+    rules: [
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+      },
+      {
+        userAgent: "*",
+        allow: "/",
+      },
+    ],
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

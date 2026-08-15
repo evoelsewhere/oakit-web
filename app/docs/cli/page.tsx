@@ -15,6 +15,7 @@ export default function CliReference() {
   return (
     <DocPage
       eyebrow="CLI reference"
+      path="/docs/cli"
       title="Deterministic Office-to-JSON from the shell."
       description={description}
     >

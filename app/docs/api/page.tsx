@@ -69,6 +69,7 @@ export default function ApiOverview() {
   return (
     <DocPage
       eyebrow="API reference"
+      path="/docs/api"
       title="The complete public surface."
       description={description}
     >

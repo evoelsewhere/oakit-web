@@ -58,6 +58,7 @@ export default function Architecture() {
   return (
     <DocPage
       eyebrow="System design"
+      path="/architecture"
       title="Complex internals, narrow public boundary."
       description={description}
     >

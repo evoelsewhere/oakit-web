@@ -3,10 +3,12 @@ import Link from "next/link";
 import { DocPage } from "../components/DocPage";
 import { createPageMetadata } from "../lib/site-metadata";
 
+const description =
+  "Learn how to parse PowerPoint files into bounded, traceable structures for AI agents with the OAKit API, CLI, and browser integration.";
+
 export const metadata = createPageMetadata({
   title: "Documentation",
-  description:
-    "Learn how OAKit turns Office documents into deterministic structures for AI agents.",
+  description,
   path: "/docs",
 });
 
@@ -41,8 +43,10 @@ const paths = [
 export default function Docs() {
   return (
     <DocPage
+      path="/docs"
+      schemaType="CollectionPage"
       title="Build reliable document capabilities."
-      description="OAKit owns the OOXML complexity so applications and agents can work with a stable, bounded public model."
+      description={description}
     >
       <section className="doc-section">
         <h2>Choose a path</h2>

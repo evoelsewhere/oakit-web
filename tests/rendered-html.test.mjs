@@ -29,6 +29,37 @@ async function htmlFor(pathname) {
   return response.text();
 }
 
+const indexableRoutes = [
+  "/",
+  "/docs",
+  "/docs/quickstart",
+  "/docs/api",
+  "/docs/api/parse-pptx",
+  "/docs/api/document-model",
+  "/docs/api/diagnostics",
+  "/docs/cli",
+  "/docs/browser",
+  "/docs/agent-tools",
+  "/guides",
+  "/demo",
+  "/architecture",
+  "/changelog",
+];
+
+function metadataContent(html, attribute, value) {
+  const expression = new RegExp(
+    `<meta[^>]+${attribute}="${value}"[^>]+content="([^"]+)"[^>]*>`,
+    "i",
+  );
+  return html.match(expression)?.[1] ?? "";
+}
+
+function structuredDataFrom(html) {
+  return [...html.matchAll(
+    /<script type="application\/ld\+json">([^<]+)<\/script>/gi,
+  )].map((match) => JSON.parse(match[1]));
+}
+
 test("renders the OAKit landing page without starter artifacts", async () => {
   const html = await htmlFor("/");
 
@@ -43,6 +74,70 @@ test("renders the OAKit landing page without starter artifacts", async () => {
   assert.match(html, /\/og\.png/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+});
+
+test("publishes complete, unique SEO metadata on every indexable route", async () => {
+  const pages = await Promise.all(
+    indexableRoutes.map(async (route) => [route, await htmlFor(route)]),
+  );
+  const titles = new Set();
+  const descriptions = new Set();
+
+  for (const [route, html] of pages) {
+    const expectedCanonical = `https://oakit.evoelsewhere.asia${route === "/" ? "" : route}`;
+    const title = html.match(/<title>([^<]+)<\/title>/i)?.[1] ?? "";
+    const description = metadataContent(html, "name", "description");
+    const robots = metadataContent(html, "name", "robots");
+
+    assert.ok(title.length >= 15 && title.length <= 65, `${route} title length`);
+    assert.ok(
+      description.length >= 70 && description.length <= 170,
+      `${route} description length`,
+    );
+    assert.ok(!titles.has(title), `${route} title should be unique`);
+    assert.ok(
+      !descriptions.has(description),
+      `${route} description should be unique`,
+    );
+    titles.add(title);
+    descriptions.add(description);
+
+    assert.equal(
+      (html.match(/rel="canonical"/gi) ?? []).length,
+      1,
+      `${route} canonical count`,
+    );
+    assert.match(
+      html,
+      new RegExp(`rel="canonical" href="${expectedCanonical}"`),
+    );
+    assert.match(robots, /index/i, `${route} should be indexable`);
+    assert.match(robots, /follow/i, `${route} links should be followed`);
+    assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${route} h1 count`);
+  }
+});
+
+test("describes the site, software, docs, and breadcrumbs with JSON-LD", async () => {
+  const [home, reference] = await Promise.all([
+    htmlFor("/"),
+    htmlFor("/docs/api/parse-pptx"),
+  ]);
+  const homeTypes = structuredDataFrom(home)
+    .flatMap((entry) => entry["@graph"] ?? [])
+    .map((entry) => entry["@type"]);
+  const referenceTypes = structuredDataFrom(reference)
+    .flatMap((entry) => entry["@graph"] ?? [])
+    .map((entry) => entry["@type"]);
+
+  assert.deepEqual(
+    new Set(homeTypes),
+    new Set(["Organization", "WebSite", "SoftwareSourceCode"]),
+  );
+  assert.ok(referenceTypes.includes("BreadcrumbList"));
+  assert.ok(referenceTypes.includes("TechArticle"));
+  assert.match(reference, /aria-label="Breadcrumb"/);
+  assert.match(reference, /href="\/docs\/api"/);
+  assert.match(reference, /aria-current="page">Parsing PPTX/);
 });
 
 test("renders documentation and its safety boundary", async () => {
@@ -141,24 +236,45 @@ test("renders the detailed visual architecture map", async () => {
 });
 
 test("publishes crawler metadata for the canonical domain", async () => {
-  const [robotsResponse, sitemapResponse] = await Promise.all([
+  const [robotsResponse, sitemapResponse, manifestResponse] = await Promise.all([
     render("/robots.txt"),
     render("/sitemap.xml"),
+    render("/manifest.webmanifest"),
   ]);
 
   assert.equal(robotsResponse.status, 200);
   assert.equal(sitemapResponse.status, 200);
+  assert.equal(manifestResponse.status, 200);
 
-  const [robots, sitemap] = await Promise.all([
+  const [robots, sitemap, manifest] = await Promise.all([
     robotsResponse.text(),
     sitemapResponse.text(),
+    manifestResponse.json(),
   ]);
+  assert.match(robots, /User-Agent: Googlebot/i);
   assert.match(robots, /Allow: \//);
   assert.match(
     robots,
     /Sitemap: https:\/\/oakit\.evoelsewhere\.asia\/sitemap\.xml/,
   );
+  assert.match(robots, /Host: https:\/\/oakit\.evoelsewhere\.asia/);
   assert.match(sitemap, /https:\/\/oakit\.evoelsewhere\.asia\/docs\/quickstart/);
   assert.match(sitemap, /https:\/\/oakit\.evoelsewhere\.asia\/docs\/api\/document-model/);
+  assert.equal((sitemap.match(/<url>/g) ?? []).length, indexableRoutes.length);
+  assert.equal((sitemap.match(/<lastmod>2026-08-15T00:00:00\.000Z<\/lastmod>/g) ?? []).length, indexableRoutes.length);
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /xml/i);
+  assert.equal(manifest.name, "OAKit — Office Agent Kit");
+  assert.equal(manifest.start_url, "/");
+  assert.match(
+    manifestResponse.headers.get("content-type") ?? "",
+    /application\/manifest\+json|application\/json/i,
+  );
+});
+
+test("returns a noindex 404 for unknown URLs", async () => {
+  const response = await render("/not-a-real-page");
+  const html = await response.text();
+
+  assert.equal(response.status, 404);
+  assert.match(html, /name="robots" content="noindex"/i);
 });

@@ -1,9 +1,12 @@
 import { DocPage } from "../components/DocPage";
 import { createPageMetadata } from "../lib/site-metadata";
 
+const description =
+  "Build reliable AI-agent workflows with OAKit using document structure, provenance, untrusted-content boundaries, and incremental indexing.";
+
 export const metadata = createPageMetadata({
-  title: "Guides",
-  description: "Patterns for using OAKit in reliable AI-agent workflows.",
+  title: "AI-agent integration guides",
+  description,
   path: "/guides",
 });
 
@@ -11,8 +14,10 @@ export default function Guides() {
   return (
     <DocPage
       eyebrow="Agent guides"
+      path="/guides"
+      schemaType="CollectionPage"
       title="From documents to trustworthy context."
-      description="Use structure and provenance before embeddings. OAKit is the document boundary, not the vector database or agent runtime."
+      description={description}
     >
       <section className="doc-section numbered-guides">
         <article>

@@ -15,6 +15,7 @@ export default function AgentToolsGuide() {
   return (
     <DocPage
       eyebrow="Integration pattern"
+      path="/docs/agent-tools"
       title="Expose documents as data, never authority."
       description={description}
     >
